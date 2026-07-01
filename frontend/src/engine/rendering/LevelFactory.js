@@ -1,0 +1,8 @@
+import { EnemyBrain } from '../ai/EnemyBrain.js';
+export class LevelFactory {
+  constructor(scene, level) { this.scene = scene; this.level = level; }
+  build() { this.platforms = this.scene.physics.add.staticGroup(); this.level.platforms.forEach((p) => { const tile = this.platforms.create(p.x + p.w / 2, p.y + p.h / 2, 'world-atlas').setDisplaySize(p.w, p.h).refreshBody().setTint(p.kind === 'wet' ? 0x78e0e6 : 0x79d365); tile.body.updateFromGameObject(); }); this.level.interactives.forEach((item) => this.addInteractive(item)); return this.platforms; }
+  addInteractive(item) { const sprite = this.scene.add.image(item.x, item.y, 'world-atlas').setDepth(item.kind === 'waterfall' ? 8 : 16).setTint(item.kind === 'crystal' ? 0x9bf7ff : 0x8df2aa); this.scene.tweens.add({ targets: sprite, y: item.y - 8, alpha: item.kind === 'waterfall' ? 0.45 : 0.9, yoyo: true, repeat: -1, duration: 1600 + item.x % 700, ease: 'sine.inOut' }); }
+  spawnHero(spawn) { const hero = this.scene.physics.add.sprite(spawn.x, spawn.y, 'hero-atlas').setDepth(40).setSize(20, 42).setOffset(6, 8); hero.body.setMaxVelocity(520, 900).setDragX(260); return hero; }
+  spawnEnemies(configs) { return configs.map((config) => { const enemy = this.scene.physics.add.sprite(config.x, config.y, 'enemy-atlas').setDepth(35).setSize(config.archetype === 'dragonMan' ? 34 : 24, config.archetype === 'dragonMan' ? 58 : 38); enemy.spawnX = config.x; enemy.hp = config.archetype === 'dragonMan' ? 150 : 76; enemy.stun = 0; enemy.dead = false; enemy.ai = new EnemyBrain(config.archetype); enemy.setTint(config.archetype === 'dragonMan' ? 0xff3355 : 0x9eb686); return enemy; }); }
+}
