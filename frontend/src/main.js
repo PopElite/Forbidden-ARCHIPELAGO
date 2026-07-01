@@ -1,4 +1,3 @@
-import './styles.css';
 import { createGameStore } from './state/stores.js';
 import { Engine } from './game/core/Engine.js';
 import { renderHud } from './components/hud/Hud.js';
