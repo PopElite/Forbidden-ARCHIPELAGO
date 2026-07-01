@@ -1,0 +1,12 @@
+import { MOTION_STATES } from '../../config/motionStates.js';
+
+export class Renderer {
+  constructor(canvas, camera) { this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.camera = camera; }
+  resize() { const rect = this.canvas.getBoundingClientRect(); const ratio = Math.min(window.devicePixelRatio || 1, 2); this.canvas.width = rect.width * ratio; this.canvas.height = rect.height * ratio; this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0); this.camera.width = rect.width; this.camera.height = rect.height; }
+  render(level, player) { const ctx = this.ctx; const { width, height } = this.canvas.getBoundingClientRect(); const gradient = ctx.createLinearGradient(0, 0, 0, height); level.background.sky.forEach((color, i) => gradient.addColorStop(i / (level.background.sky.length - 1), color)); ctx.fillStyle = gradient; ctx.fillRect(0, 0, width, height); this.drawParallax(level); ctx.save(); ctx.translate(-this.camera.x, -this.camera.y); level.platforms.forEach((p) => this.platform(p)); level.decorations.forEach((d) => this.decoration(d)); level.enemies.filter((e) => !e.dead).forEach((e) => this.enemy(e)); this.player(player); ctx.restore(); }
+  drawParallax(level) { const ctx = this.ctx; level.background.parallax.forEach((layer) => { ctx.fillStyle = layer.color; for (let x = -200; x < this.camera.width + 300; x += 360) { ctx.beginPath(); ctx.ellipse(x - this.camera.x * layer.speed, layer.y - this.camera.y * layer.speed, 180, 70, 0, 0, Math.PI * 2); ctx.fill(); } }); }
+  platform(p) { this.ctx.fillStyle = p.type === 'slippery' ? '#77d7d9' : '#79c857'; this.ctx.fillRect(p.x, p.y, p.w, p.h); this.ctx.fillStyle = '#4a3828'; this.ctx.fillRect(p.x, p.y + p.h * 0.42, p.w, p.h * 0.58); }
+  decoration(d) { this.ctx.fillStyle = d.kind === 'crystal' ? '#9df7ff' : '#55bce8'; this.ctx.fillRect(d.x, d.y, 28, 90); }
+  player(p) { const state = MOTION_STATES[p.state] ?? MOTION_STATES.idle; this.ctx.fillStyle = state.color; this.ctx.fillRect(p.x, p.y, p.w, p.h); this.ctx.fillStyle = '#2b1b20'; this.ctx.fillRect(p.x + 8, p.y - 14, 36, 22); if (p.attackTimer) { this.ctx.fillStyle = '#ffef9a'; this.ctx.fillRect(p.flip > 0 ? p.x + p.w : p.x - 58, p.y + 20, 58, 8); } }
+  enemy(e) { this.ctx.fillStyle = e.type === 'dragonMan' ? '#d9273f' : '#91a57e'; this.ctx.fillRect(e.x, e.y, e.w, e.h); this.ctx.fillStyle = '#111827'; this.ctx.fillRect(e.x, e.y - 12, e.w, 6); this.ctx.fillStyle = '#ef4444'; this.ctx.fillRect(e.x, e.y - 12, e.w * Math.max(0, e.health / (e.type === 'dragonMan' ? 160 : 80)), 6); }
+}
