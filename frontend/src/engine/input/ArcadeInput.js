@@ -1,0 +1,6 @@
+const keyboardMap = { ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', Space: 'jump', KeyW: 'jump', KeyJ: 'attack', KeyK: 'dash', ShiftLeft: 'dash', Escape: 'pause' };
+export class ArcadeInput {
+  constructor(scene) { this.scene = scene; this.held = new Set(); this.pressed = new Set(); scene.input.keyboard.on('keydown', (event) => this.set(event.code, true)); scene.input.keyboard.on('keyup', (event) => this.set(event.code, false)); }
+  set(code, down) { const action = keyboardMap[code]; if (!action) return; if (down && !this.held.has(action)) this.pressed.add(action); down ? this.held.add(action) : this.held.delete(action); }
+  poll() { const pads = this.scene.input.gamepad?.gamepads ?? []; const pad = pads.find(Boolean); const axis = pad && Math.abs(pad.axes[0].getValue()) > 0.22 ? pad.axes[0].getValue() : 0; if (pad) { const map = { jump: [0, 1], dash: [1, 4], attack: [2, 5], pause: [9] }; Object.entries(map).forEach(([action, buttons]) => { if (buttons.some((id) => pad.buttons[id]?.pressed)) this.pressed.add(action); }); } return { axisX: axis || (this.held.has('right') ? 1 : 0) - (this.held.has('left') ? 1 : 0), consume: (action) => { const active = this.pressed.has(action); this.pressed.delete(action); return active; } }; }
+}
