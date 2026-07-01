@@ -1,6 +1,12 @@
 # Forbidden Archipelago
 
-Production-ready framework-free canvas boilerplate for a 2D floating-island action RPG prototype.
+Production-ready frontend/backend boilerplate for a 2D floating-island action RPG prototype.
+
+## Project layout
+
+- `frontend/` contains the browser game, UI components, canvas engine, assets, and static build output.
+- `backend/` contains the Node.js API for health checks and persisted game-state endpoints.
+- `scripts/` contains root-level build, dev-server, and lint helpers.
 
 ## Features
 
@@ -11,12 +17,14 @@ Production-ready framework-free canvas boilerplate for a 2D floating-island acti
 - Combat hitbox/hurtbox evaluation, cooldowns, health, gold rewards, and event log.
 - Lightweight observable stores for HUD/world state synchronization.
 - Responsive HUD, pause menu, world map, and overlay structure.
+- Backend API endpoints for `/api/health`, `/api/state`, and `/api/state/reset`.
 
 ## Commands
 
 ```bash
 npm install
-npm run dev
+npm run dev:frontend
+npm run dev:backend
 npm run build
 npm run lint
 ```

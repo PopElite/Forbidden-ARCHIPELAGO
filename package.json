@@ -1,1 +1,1 @@
-{"scripts":{"dev":"node scripts/dev-server.mjs","build":"node scripts/build.mjs","preview":"node scripts/dev-server.mjs dist","lint":"node scripts/lint.mjs"},"dependencies":{},"devDependencies":{}}
+{"scripts":{"dev":"node scripts/dev-server.mjs frontend","dev:frontend":"node scripts/dev-server.mjs frontend","dev:backend":"node backend/src/server.js","build":"node scripts/build.mjs","build:frontend":"node scripts/build.mjs","lint":"node scripts/lint.mjs","start":"node backend/src/server.js"},"dependencies":{},"devDependencies":{}}
