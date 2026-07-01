@@ -1,0 +1,35 @@
+@font-face { font-family: system-ui; src: local(system-ui); }
+* { box-sizing: border-box; }
+body { margin: 0; background: #0f172a; color: white; font-family: Inter, ui-sans-serif, system-ui, sans-serif; overflow: hidden; }
+button { cursor: pointer; border: 0; border-radius: 12px; padding: 0.75rem 1rem; color: white; background: linear-gradient(180deg, #ff8c42, #b83225); font-weight: 800; box-shadow: 0 6px 0 #651d1a; }
+.app-shell, .game-screen, .game-canvas { width: 100vw; height: 100vh; }
+.game-screen { position: relative; overflow: hidden; }
+.game-canvas { display: block; touch-action: none; image-rendering: pixelated; }
+.hud { position: absolute; inset: 16px; pointer-events: none; text-shadow: 0 2px #111827; }
+.portrait { display: grid; place-items: center; width: 92px; height: 92px; border: 4px solid #d8ecff; border-radius: 14px; background: #243247; font-size: 3rem; }
+.bars { position: absolute; left: 112px; top: 10px; display: grid; gap: 10px; width: 250px; }
+meter { width: 100%; height: 18px; }
+.gold { position: absolute; top: 76px; left: 112px; padding: 0.45rem 1rem; border: 3px solid #9fb8cf; border-radius: 10px; background: #203043; font-size: 1.3rem; font-weight: 900; }
+.skills { position: absolute; top: 126px; left: 0; display: flex; gap: 12px; padding: 12px; border: 3px solid #9fb8cf; border-radius: 14px; background: rgba(20, 31, 45, 0.92); }
+.skill { position: relative; display: grid; place-items: center; width: 78px; height: 78px; padding: 6px; font-size: 1.6rem; box-shadow: none; background: #203043; border: 2px solid #9fb8cf; }
+.skill span { font-size: 0.75rem; }
+.skill b { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 10px; background: rgba(0,0,0,0.65); }
+.enemy-panel { position: absolute; right: 20px; top: 54px; width: min(290px, 38vw); padding: 12px; border: 3px solid #9fb8cf; border-radius: 14px; background: rgba(20, 31, 45, 0.9); }
+.enemy-panel h3 { margin: 0 0 8px; text-transform: uppercase; }
+.enemy-panel p { display: grid; grid-template-columns: 1fr 110px; gap: 10px; align-items: center; margin: 8px 0; font-weight: 800; }
+.dead { opacity: 0.45; text-decoration: line-through; }
+.event-log { position: absolute; left: 24px; right: 24px; bottom: 18px; max-height: 150px; padding: 12px 18px; border: 3px solid #9fb8cf; border-radius: 14px; background: rgba(9, 18, 30, 0.9); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.event-log h3 { position: absolute; top: -38px; left: 38%; margin: 0; padding: 4px 22px; border: 3px solid #9fb8cf; border-bottom: 0; border-radius: 12px 12px 0 0; background: #203043; text-transform: uppercase; }
+.event-log p { margin: 2px 0; font-size: clamp(0.95rem, 2.6vw, 1.35rem); }
+.modal { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(4, 9, 18, 0.58); backdrop-filter: blur(6px); }
+.modal section { width: min(480px, 90vw); padding: 28px; border: 3px solid #d8ecff; border-radius: 18px; background: #172238; }
+.modal button + button { margin-left: 12px; background: #334155; box-shadow: 0 6px 0 #111827; }
+.world-map { min-height: 100vh; display: grid; place-items: center; padding: 40px; background: radial-gradient(circle at 50% 80%, #ffd36d, transparent 22%), linear-gradient(#526aa6, #f59f65 62%, #264f62); overflow: hidden; }
+.logo { position: absolute; top: 24px; color: #ffd15c; text-align: center; font-size: clamp(2rem, 6vw, 4.4rem); font-weight: 1000; line-height: 0.86; text-transform: uppercase; -webkit-text-stroke: 2px #53251f; filter: drop-shadow(0 5px #111827); }
+.islands span { position: absolute; width: 210px; height: 110px; border-radius: 50%; background: #6fc15c; box-shadow: 0 35px 0 #4a3828; filter: blur(1px); }
+.islands span:nth-child(1) { left: 8%; top: 24%; transform: rotate(-18deg); }
+.islands span:nth-child(2) { right: 10%; top: 16%; transform: rotate(12deg); }
+.islands .active { left: 25%; bottom: 23%; width: 45vw; max-width: 680px; height: 150px; filter: none; }
+.world-map article { position: relative; z-index: 2; margin-top: 180px; width: min(620px, 90vw); padding: 24px; border: 3px solid #d8ecff; border-radius: 18px; background: rgba(18, 29, 45, 0.86); text-align: center; }
+.world-map h1 { margin: 0; color: #a7f070; }
+@media (max-width: 760px) { .hud { inset: 8px; } .enemy-panel { display: none; } .skills { top: auto; bottom: 178px; transform: scale(.84); transform-origin: left bottom; } .event-log { left: 8px; right: 8px; bottom: 8px; } .portrait { width: 68px; height: 68px; } .bars, .gold { left: 82px; } }
